@@ -17,7 +17,7 @@ public class MessageListener extends ListenerAdapter {
                 return;
             }
             if(message.getAuthor().getId().equals(Ref.Users.ANTONIO.getId()) && Ref.ANTONIO_MODE) {
-                message.getChannel().sendMessage("Quiet liberal").queue();
+                message.getChannel().sendMessage(Ref.ANTONIO_MESSAGE).queue();
             }
             if (checkPrefix(message.getContentRaw())) {
                 Command.getCommand(message, event.getAuthor()).execute();

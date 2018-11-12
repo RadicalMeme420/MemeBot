@@ -1,5 +1,6 @@
 package me.radicalmeme420.discordbot.memebot.log;
 
+import me.radicalmeme420.discordbot.memebot.util.Ref;
 import net.dv8tion.jda.core.entities.User;
 
 public class Logger {
@@ -19,16 +20,21 @@ public class Logger {
     }
     
     public void log(LogType type, String message) {
-        if(type == LogType.COMMAND) { throw new IllegalArgumentException("Use logger.logCommand for logging commands!"); }
-        System.out.println(type.getPrefix() + message);
+        // if(type == LogType.COMMAND) { throw new IllegalArgumentException("Use logger.logCommand for logging commands!"); }
+        if((type.equals(LogType.DEBUG) && Ref.DEBUG) || !type.equals(LogType.DEBUG)) {
+            System.out.println(type.getPrefix() + message);
+        }
+        
     }
     
-    public void logCommand(String command, String[] args, User user) {
+    public void logCommand(String[] command, User user) {
         String str = user.getName() + ": ";
         
-        if(args != null) {
-            for(String arg : args) {
-                str += "<" + arg + "> ";
+        for(int i = 0; i < command.length; i++) {
+            if(i!=0) {
+                str += "<" + command[i] + "> ";
+            } else {
+                str += Ref.PREFIX + command[0];
             }
         }
         
@@ -38,7 +44,8 @@ public class Logger {
     public enum LogType {
         COMMAND("[Command]: "),
         INFO("[INFO]: "),
-        WARNING("[WARNING]: ");
+        WARNING("[WARNING]: "),
+        DEBUG("[DEBUG]: ");
         
         private String prefix;
         
