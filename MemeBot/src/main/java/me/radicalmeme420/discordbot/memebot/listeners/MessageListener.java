@@ -1,5 +1,7 @@
-package me.radicalmeme420.discordbot.memebot;
+package me.radicalmeme420.discordbot.memebot.listeners;
 
+import me.radicalmeme420.discordbot.memebot.command.Command;
+import me.radicalmeme420.discordbot.memebot.util.Ref;
 import net.dv8tion.jda.core.entities.ChannelType;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;

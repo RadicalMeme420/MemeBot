@@ -1,5 +1,7 @@
-package me.radicalmeme420.discordbot.memebot;
+package me.radicalmeme420.discordbot.memebot.command;
 
+import me.radicalmeme420.discordbot.memebot.util.Ref;
+import me.radicalmeme420.discordbot.memebot.util.Ref.Users;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.User;
 

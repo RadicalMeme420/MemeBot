@@ -6,9 +6,10 @@ import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDABuilder;
 import net.dv8tion.jda.core.entities.Game;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
-
+import me.radicalmeme420.discordbot.memebot.listeners.MessageListener;
 import me.radicalmeme420.discordbot.memebot.log.*;
 import me.radicalmeme420.discordbot.memebot.log.Logger.LogType;
+import me.radicalmeme420.discordbot.memebot.util.Ref;
 
 public class MemeBot extends ListenerAdapter {
     

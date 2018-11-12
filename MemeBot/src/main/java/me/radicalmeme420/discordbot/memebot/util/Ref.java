@@ -1,4 +1,4 @@
-package me.radicalmeme420.discordbot.memebot;
+package me.radicalmeme420.discordbot.memebot.util;
 
 public class Ref {
 
