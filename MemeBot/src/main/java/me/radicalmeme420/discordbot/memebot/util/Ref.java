@@ -23,7 +23,7 @@ public class Ref {
     public enum Users {
         
         ANTONIO("212648839369326602", false),
-        SELF("173068605645258752", false);
+        SELF("173068605645258752", true);
         
         private String id;
         private boolean admin;
