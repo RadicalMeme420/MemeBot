@@ -26,6 +26,7 @@ public class MessageListener extends ListenerAdapter {
     }
 
     private boolean checkPrefix(String message) {
-        return message.charAt(0) == Ref.PREFIX;
+    	
+        return message != null && !message.equals("") && message.charAt(0) == Ref.PREFIX;
     }
 }

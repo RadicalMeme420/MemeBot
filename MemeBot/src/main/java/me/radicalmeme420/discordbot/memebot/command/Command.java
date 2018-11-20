@@ -1,5 +1,6 @@
 package me.radicalmeme420.discordbot.memebot.command;
 
+import me.radicalmeme420.discordbot.memebot.util.AntonioGenerator;
 import me.radicalmeme420.discordbot.memebot.util.Ref;
 
 import java.util.ArrayList;
@@ -8,6 +9,7 @@ import java.util.function.Consumer;
 
 import me.radicalmeme420.discordbot.memebot.log.*;
 import me.radicalmeme420.discordbot.memebot.log.Logger.LogType;
+import net.dv8tion.jda.core.MessageBuilder;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.entities.User;
@@ -78,8 +80,9 @@ public abstract class Command {
 			// If user is not admin tell them no
 			if (!Ref.isAdmin(super.author.getId())) {
 				try {
-				super.message.delete().queue();
-				} catch (InsufficientPermissionException e) { }
+					super.message.delete().queue();
+				} catch (InsufficientPermissionException e) {
+				}
 				super.message.getChannel().sendMessage("No").queue();
 				return;
 			}
@@ -91,8 +94,9 @@ public abstract class Command {
 			if (args.length >= 2) {
 				// Delete user message
 				try {
-				super.message.delete().queue();
-				} catch (InsufficientPermissionException e) { }
+					super.message.delete().queue();
+				} catch (InsufficientPermissionException e) {
+				}
 
 				String msg = "";
 				// For each arg, add it to the message
@@ -105,8 +109,9 @@ public abstract class Command {
 				// For each channel, send the message
 				for (TextChannel c : super.message.getGuild().getTextChannels()) {
 					try {
-					c.sendMessage(msg).queue();
-					} catch (InsufficientPermissionException e) { }
+						c.sendMessage(msg).queue();
+					} catch (InsufficientPermissionException e) {
+					}
 				}
 
 			}
@@ -122,74 +127,76 @@ public abstract class Command {
 
 		@Override
 		public void execute() {
+
 			String[] args = getArgs(super.message);
 
-			if (args.length >= 2) {
+			MessageBuilder m = new MessageBuilder();
+			m.appendFormat(AntonioGenerator.getRandomAntonio(), super.author.getAsMention());
 
-				// super.message.delete().queue();
-
-				if (args[1].equals("-a")) {
-					for (TextChannel c : super.message.getGuild().getTextChannels()) {
-						try {
-							c.sendMessage("<@!" + Ref.Users.ANTONIO.getId() + ">").queue();
-						} catch (InsufficientPermissionException e) { }
-					}
-				}
-
-			} else {
-				try {
-					super.message.getChannel().sendMessage("<@!" + Ref.Users.ANTONIO.getId() + ">").queue();
-				} catch (InsufficientPermissionException e) { }
+			if (args.length >= 2 && args[1].equals("-t")) {
+				m.setTTS(true);
 			}
 
+			super.message.getChannel().sendMessage(m.build()).queue();
 		}
 	}
-	
+
 	public static class CleanCommand extends Command {
-		
+
 		public CleanCommand(Message message, User author) {
 			super(message, author);
 		}
 
 		public List<Message> msgs;
+
 		@Override
 		public void execute() {
 
 			Logger.getLogger().log(LogType.INFO, "Clearing messages...");
-			
+
 			long time = System.currentTimeMillis();
-			for(TextChannel ch : super.message.getGuild().getTextChannels()) {
-				
-				List<Message> msgs = ch.getHistory().retrievePast(100).complete();
-				
-				for(Message m : msgs) {
-					if(m.getAuthor().getId().equals(Ref.CLIENT_ID)) {
+			for (TextChannel ch : super.message.getGuild().getTextChannels()) {
+
+				try {
+					msgs = ch.getHistory().retrievePast(100).complete();
+				} catch (InsufficientPermissionException e) {
+				}
+
+				for (Message m : msgs) {
+					if (m.getAuthor().getId().equals(Ref.CLIENT_ID)) {
 						try {
-						m.delete().queue();
-						} catch (InsufficientPermissionException e) { }
+							m.delete().queue();
+						} catch (InsufficientPermissionException e) {
+						}
+					}
+					if (m.getContentRaw() != null && !m.getContentRaw().equals("")) {
+						if (m.getContentRaw().charAt(0) == Ref.PREFIX) {
+							try {
+								m.delete().queue();
+							} catch (InsufficientPermissionException e) {
+							}
+						}
 					}
 				}
 			}
-			
-			time = System.currentTimeMillis()-time;
-			Logger.getLogger().log(LogType.INFO, "Took " + (time/1000 + "." + time%1000) + "s");
-			
+
+			time = System.currentTimeMillis() - time;
+			Logger.getLogger().log(LogType.INFO, "Took " + (time / 1000 + "." + time % 1000) + "s");
+
 		}
 	}
-	
+
 	public static class TimerCommand extends Command {
-		
+
 		public TimerCommand(Message message, User author) {
 			super(message, author);
 		}
 
 		@Override
 		public void execute() {
-			
-			
+
 		}
-		
-		
+
 	}
 
 }
